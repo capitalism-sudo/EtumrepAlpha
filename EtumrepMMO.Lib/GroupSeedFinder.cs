@@ -52,12 +52,13 @@ public static class GroupSeedFinder
     /// <param name="seed">Group seed</param>
     /// <param name="ecs">Entity encryption constants</param>
     /// <returns>True if all <see cref="ecs"/> are generated from the <see cref="seed"/>.</returns>
+    /// Added a reseed at the end to represent the reseeding for a normal/alpha spawner.
     private static bool IsValidGroupSeed(ulong seed, ReadOnlySpan<uint> ecs)
     {
         int matched = 0;
 
         var rng = new Xoroshiro128Plus(seed);
-        for (int count = 0; count < 4; count++)
+        for (int count = 0; count < 2; count++)
         {
             var genseed = rng.Next();
             _ = rng.Next(); // unknown
@@ -73,6 +74,8 @@ public static class GroupSeedFinder
             var index = ecs.IndexOf(ec);
             if (index != -1)
                 matched++;
+            var reseed = new Xoroshiro128Plus(rng.Next());
+            rng = reseed;
         }
 
         return matched == ecs.Length;
