@@ -1,6 +1,6 @@
 ﻿using PKHeX.Core;
 
-namespace EtumrepMMO.Lib;
+namespace EtumrepAlpha.Lib.ReversalMethods;
 
 /// <summary>
 /// Reverses for top step seeds by using basic arithmetic.

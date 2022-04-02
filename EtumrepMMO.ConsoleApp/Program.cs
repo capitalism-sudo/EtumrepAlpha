@@ -1,4 +1,4 @@
-﻿using EtumrepMMO.Lib;
+﻿using EtumrepAlpha.Lib;
 
 const string entityFolderName = "mons";
 var result = GroupSeedFinder.FindSeed(entityFolderName);

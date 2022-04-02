@@ -1,6 +1,7 @@
-﻿using PKHeX.Core;
+﻿using EtumrepAlpha.Lib.ReversalMethods;
+using PKHeX.Core;
 
-namespace EtumrepMMO.Lib;
+namespace EtumrepAlpha.Lib;
 
 public static class GroupSeedFinder
 {
@@ -24,7 +25,7 @@ public static class GroupSeedFinder
         for (int i = 0; i < entities.Length; i++)
         {
             var entity = entities[i];
-            Console.WriteLine($"Checking entity {i+1}/{entities.Length} for group seeds...");
+            Console.WriteLine($"Checking entity {i + 1}/{entities.Length} for group seeds...");
             var pokeResult = IterativeReversal.GetSeeds(entity, maxRolls);
 
             foreach (var (pokeSeed, rolls) in pokeResult)
@@ -66,7 +67,7 @@ public static class GroupSeedFinder
             var slotrng = new Xoroshiro128Plus(genseed);
             _ = slotrng.Next(); // slot
             var mon_seed = slotrng.Next();
-         // _ = slotrng.Next(); // level
+            // _ = slotrng.Next(); // level
 
             var monrng = new Xoroshiro128Plus(mon_seed);
             var ec = (uint)monrng.NextInt();

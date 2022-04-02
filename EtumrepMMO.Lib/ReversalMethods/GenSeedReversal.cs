@@ -1,7 +1,7 @@
 ﻿using Microsoft.Z3;
 using PKHeX.Core;
 
-namespace EtumrepMMO.Lib;
+namespace EtumrepAlpha.Lib.ReversalMethods;
 
 /// <summary>
 /// Reverses for middle step seeds by using Z3 to calculate.
