@@ -7,16 +7,20 @@ public static class GroupSeedFinder
 {
     public const byte max_rolls = 32;
 
-    public static ulong FindSeed(string folder, byte maxRolls = max_rolls) => FindSeed(Directory.EnumerateFiles(folder), maxRolls);
-    public static ulong FindSeed(IEnumerable<string> files, byte maxRolls = max_rolls) => FindSeed(files.Select(File.ReadAllBytes), maxRolls);
-    public static ulong FindSeed(IEnumerable<byte[]> data, byte maxRolls = max_rolls) => FindSeed(data.Select(PKMConverter.GetPKMfromBytes).OfType<PKM>(), maxRolls);
+    public static ulong FindSeed(string folder, byte maxRolls = max_rolls) => FindSeed(GetInputs(folder), maxRolls);
+    public static ulong FindSeed(IEnumerable<string> files, byte maxRolls = max_rolls) => FindSeed(GetInputs(files), maxRolls);
+    public static ulong FindSeed(IEnumerable<byte[]> data, byte maxRolls = max_rolls) => FindSeed(GetInputs(data), maxRolls);
+
+    public static IReadOnlyList<PKM> GetInputs(string folder) => GetInputs(Directory.EnumerateFiles(folder));
+    public static IReadOnlyList<PKM> GetInputs(IEnumerable<string> files) => GetInputs(files.Select(File.ReadAllBytes));
+    public static IReadOnlyList<PKM> GetInputs(IEnumerable<byte[]> data) => data.Select(PKMConverter.GetPKMfromBytes).OfType<PKM>().Where(z => !z.IsShiny).ToArray();
 
     /// <summary>
     /// Returns all valid Group Seeds (should only be one) that generated the input data.
     /// </summary>
     /// <param name="data">Entities that were generated</param>
     /// <param name="maxRolls">Max amount of PID re-rolls for shiny odds.</param>
-    public static ulong FindSeed(IEnumerable<PKM> data, byte maxRolls = max_rolls)
+    public static ulong FindSeed(IReadOnlyList<PKM> data, byte maxRolls = max_rolls)
     {
         var entities = data.ToArray();
         var ecs = entities.Select(z => z.EncryptionConstant).ToArray();
@@ -26,7 +30,7 @@ public static class GroupSeedFinder
         {
             var entity = entities[i];
             Console.WriteLine($"Checking entity {i + 1}/{entities.Length} for group seeds...");
-            var pokeResult = IterativeReversal.GetSeeds(entity, maxRolls);
+            var pokeResult = RuntimeReversal.GetSeeds(entity, maxRolls);
 
             foreach (var (pokeSeed, rolls) in pokeResult)
             {
@@ -36,7 +40,7 @@ public static class GroupSeedFinder
                 {
                     // Get the group seed - O(1) calc
                     var groupSeed = GroupSeedReversal.GetGroupSeed(genSeed);
-                    if (!IsValidGroupSeed(groupSeed, ecs))
+                    if ((!IsValidGroupSeed(groupSeed, ecs)) && (!IsValidMMOGroupSeed(groupSeed, ecs)))
                         continue;
 
                     Console.WriteLine($"Found a group seed with PID roll count = {rolls}");
@@ -59,7 +63,7 @@ public static class GroupSeedFinder
         int matched = 0;
 
         var rng = new Xoroshiro128Plus(seed);
-        for (int count = 0; count < 2; count++)
+        for (int count = 0; count < 4; count++)
         {
             var genseed = rng.Next();
             _ = rng.Next(); // unknown
@@ -77,6 +81,33 @@ public static class GroupSeedFinder
                 matched++;
             var reseed = new Xoroshiro128Plus(rng.Next());
             rng = reseed;
+        }
+
+        return matched == ecs.Length;
+    }
+
+
+    private static bool IsValidMMOGroupSeed(ulong seed, ReadOnlySpan<uint> ecs)
+    {
+        int matched = 0;
+
+        var rng = new Xoroshiro128Plus(seed);
+        for (int count = 0; count < 4; count++)
+        {
+            var genseed = rng.Next();
+            _ = rng.Next(); // unknown
+
+            var slotrng = new Xoroshiro128Plus(genseed);
+            _ = slotrng.Next(); // slot
+            var mon_seed = slotrng.Next();
+            // _ = slotrng.Next(); // level
+
+            var monrng = new Xoroshiro128Plus(mon_seed);
+            var ec = (uint)monrng.NextInt();
+
+            var index = ecs.IndexOf(ec);
+            if (index != -1)
+                matched++;
         }
 
         return matched == ecs.Length;
