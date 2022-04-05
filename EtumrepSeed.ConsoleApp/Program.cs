@@ -1,4 +1,4 @@
-﻿using EtumrepAlpha.Lib;
+﻿using EtumrepSeed.Lib;
 
 const string entityFolderName = "mons";
 var inputs = GroupSeedFinder.GetInputs(entityFolderName);

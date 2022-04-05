@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using PKHeX.Core;
 
-namespace EtumrepAlpha.Lib.ReversalMethods;
+namespace EtumrepSeed.Lib.ReversalMethods;
 
 /// <summary>
 /// Reverses an entity's details into the seed that generated it.

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EtumrepAlphaTests.Properties {
+namespace EtumrepSeed.Lib.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EtumrepAlphaTests.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EtumrepAlphaTests.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EtumrepSeed.Lib.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace EtumrepAlphaTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Tentacool1 {
+        internal static byte[] PLA_SeedFinder_32 {
             get {
-                object obj = ResourceManager.GetObject("Tentacool1", resourceCulture);
+                object obj = ResourceManager.GetObject("PLA_SeedFinder_32", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,29 +73,9 @@ namespace EtumrepAlphaTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Tentacool2 {
+        internal static byte[] PLA_SeedFinder_64 {
             get {
-                object obj = ResourceManager.GetObject("Tentacool2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Tentacool3 {
-            get {
-                object obj = ResourceManager.GetObject("Tentacool3", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Tentacool4 {
-            get {
-                object obj = ResourceManager.GetObject("Tentacool4", resourceCulture);
+                object obj = ResourceManager.GetObject("PLA_SeedFinder_64", resourceCulture);
                 return ((byte[])(obj));
             }
         }

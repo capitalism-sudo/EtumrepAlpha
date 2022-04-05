@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using PKHeX.Core;
 
-namespace EtumrepAlpha.Lib.ReversalMethods;
+namespace EtumrepSeed.Lib.ReversalMethods;
 
 public static class RuntimeReversal
 {

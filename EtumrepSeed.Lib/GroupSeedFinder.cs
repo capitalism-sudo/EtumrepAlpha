@@ -1,7 +1,7 @@
-﻿using EtumrepAlpha.Lib.ReversalMethods;
+﻿using EtumrepSeed.Lib.ReversalMethods;
 using PKHeX.Core;
 
-namespace EtumrepAlpha.Lib;
+namespace EtumrepSeed.Lib;
 
 public static class GroupSeedFinder
 {
@@ -40,7 +40,7 @@ public static class GroupSeedFinder
                 {
                     // Get the group seed - O(1) calc
                     var groupSeed = GroupSeedReversal.GetGroupSeed(genSeed);
-                    if ((!IsValidGroupSeed(groupSeed, ecs)) && (!IsValidMMOGroupSeed(groupSeed, ecs)))
+                    if (!IsValidGroupSeed(groupSeed, ecs) && !IsValidMMOGroupSeed(groupSeed, ecs))
                         continue;
 
                     Console.WriteLine($"Found a group seed with PID roll count = {rolls}");

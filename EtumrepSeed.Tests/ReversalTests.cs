@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using EtumrepAlpha.Lib;
-using EtumrepAlpha.Lib.ReversalMethods;
 using FluentAssertions;
+using EtumrepSeed.Lib;
+using EtumrepSeed.Lib.ReversalMethods;
 using PKHeX.Core;
 using Xunit;
 
-namespace EtumrepAlphaTests;
+namespace EtumrepSeedTests;
 
 public class ReversalTests
 {

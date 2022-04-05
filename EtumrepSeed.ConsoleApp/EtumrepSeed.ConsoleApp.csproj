@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EtumrepMMO.Lib\EtumrepAlpha.Lib.csproj" />
+    <ProjectReference Include="..\EtumrepSeed.Lib\EtumrepSeed.Lib.csproj" />
   </ItemGroup>
 
 </Project>
