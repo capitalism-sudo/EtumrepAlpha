@@ -3,24 +3,24 @@ using PKHeX.Core;
 
 namespace EtumrepSeed.Lib;
 
-public static class GroupSeedFinder
+public class GroupSeedFinder
 {
     public const byte max_rolls = 32;
 
-    public static ulong FindSeed(string folder, byte maxRolls = max_rolls) => FindSeed(GetInputs(folder), maxRolls);
-    public static ulong FindSeed(IEnumerable<string> files, byte maxRolls = max_rolls) => FindSeed(GetInputs(files), maxRolls);
-    public static ulong FindSeed(IEnumerable<byte[]> data, byte maxRolls = max_rolls) => FindSeed(GetInputs(data), maxRolls);
+    public ulong FindSeed(string folder, byte maxRolls = max_rolls) => FindSeed(GetInputs(folder), maxRolls);
+    public ulong FindSeed(IEnumerable<string> files, byte maxRolls = max_rolls) => FindSeed(GetInputs(files), maxRolls);
+    public ulong FindSeed(IEnumerable<byte[]> data, byte maxRolls = max_rolls) => FindSeed(GetInputs(data), maxRolls);
 
-    public static IReadOnlyList<PKM> GetInputs(string folder) => GetInputs(Directory.EnumerateFiles(folder));
-    public static IReadOnlyList<PKM> GetInputs(IEnumerable<string> files) => GetInputs(files.Select(File.ReadAllBytes));
-    public static IReadOnlyList<PKM> GetInputs(IEnumerable<byte[]> data) => data.Select(PKMConverter.GetPKMfromBytes).OfType<PKM>().Where(z => !z.IsShiny).ToArray();
+    public IReadOnlyList<PKM> GetInputs(string folder) => GetInputs(Directory.EnumerateFiles(folder));
+    public IReadOnlyList<PKM> GetInputs(IEnumerable<string> files) => GetInputs(files.Select(File.ReadAllBytes));
+    public IReadOnlyList<PKM> GetInputs(IEnumerable<byte[]> data) => data.Select(PKMConverter.GetPKMfromBytes).OfType<PKM>().Where(z => !z.IsShiny).ToArray();
 
     /// <summary>
     /// Returns all valid Group Seeds (should only be one) that generated the input data.
     /// </summary>
     /// <param name="data">Entities that were generated</param>
     /// <param name="maxRolls">Max amount of PID re-rolls for shiny odds.</param>
-    public static ulong FindSeed(IReadOnlyList<PKM> data, byte maxRolls = max_rolls)
+    public ulong FindSeed(IReadOnlyList<PKM> data, byte maxRolls = max_rolls)
     {
         var entities = data.ToArray();
         var ecs = entities.Select(z => z.EncryptionConstant).ToArray();
@@ -58,7 +58,7 @@ public static class GroupSeedFinder
     /// <param name="ecs">Entity encryption constants</param>
     /// <returns>True if all <see cref="ecs"/> are generated from the <see cref="seed"/>.</returns>
     /// Added a reseed at the end to represent the reseeding for a normal/alpha spawner.
-    private static bool IsValidGroupSeed(ulong seed, ReadOnlySpan<uint> ecs)
+    private bool IsValidGroupSeed(ulong seed, ReadOnlySpan<uint> ecs)
     {
         int matched = 0;
 
@@ -87,7 +87,7 @@ public static class GroupSeedFinder
     }
 
 
-    private static bool IsValidMMOGroupSeed(ulong seed, ReadOnlySpan<uint> ecs)
+    private bool IsValidMMOGroupSeed(ulong seed, ReadOnlySpan<uint> ecs)
     {
         int matched = 0;
 

@@ -24,8 +24,8 @@ public class ReversalTests
             var seeds = IterativeReversal.GetSeeds(d, rollCount);
             seeds.Should().NotBeEmpty();
         }
-
-        var groupSeed = GroupSeedFinder.FindSeed(all, rollCount);
+        var seedf = new GroupSeedFinder();
+        var groupSeed = seedf.FindSeed(all, rollCount);
         groupSeed.Should().NotBe(default);
     }
 

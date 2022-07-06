@@ -9,18 +9,18 @@ public static class RuntimeReversal
 {
     public static (ulong Seed, byte Rolls)[] GetSeeds(PKM pk, byte max_rolls)
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
+        /*if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {*/
             var result = GetAllSeeds(pk, max_rolls);
             var map = new (ulong, byte)[result.Count];
             for (int i = 0; i < result.Count; i++)
                 map[i] = (result[i].Seed, (byte)result[i].ShinyRolls);
             return map;
-        }
+        /*}
         else
         {
             return IterativeReversal.GetSeeds(pk, max_rolls);
-        }
+        }*/
     }
 
     private static List<SeedSearchResult> GetAllSeeds(PKM pk, byte max_rolls)
@@ -233,7 +233,8 @@ public static class RuntimeReversal
         public Xoroshiro128Plus(ulong s0 = XOROSHIRO_CONST0, ulong s1 = XOROSHIRO_CONST) => (this.s0, this.s1) = (s0, s1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ulong RotateLeft(ulong x, int k) => System.Numerics.BitOperations.RotateLeft(x, k);
+        //private static ulong RotateLeft(ulong x, int k) => System.Numerics.BitOperations.RotateLeft(x, k);
+        private static ulong RotateLeft(ulong x, int k) => BitManipulator.RotationExtensions.RotateLeft(x, k);
 
         /// <summary>
         /// Gets the next random <see cref="ulong"/>.
